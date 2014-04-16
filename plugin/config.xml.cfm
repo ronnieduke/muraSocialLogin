@@ -181,7 +181,38 @@
 		See /default/includes/themes/MuraBootstrap/config.xml.cfm
 		for examples.
 	-->
-	<!-- <extensions></extensions> -->
+	<extensions>
+		<extension type="User" subType="Social Login">
+			<!--
+			<attributeset name="Social Options" container="Basic">
+			-->
+				<!-- Todo: type the social network as soon as we integrate more than Facebook
+				<attribute 
+					name="social-network"
+					label="Social Network"
+					hint=""
+					type="SelectBox"
+					defaultValue=""
+					required="true"
+					optionList="fb"
+					optionLabelList="Facebook" />
+				-->
+				<!-- todo: preserve RemoteID for other usages
+				(improve backward compatibility to be integrated into existing systems)
+				<attribute 
+					name="social-id"
+					label="External ID"
+					hint="This is the internal ID of the social Network."
+					type="TextBox"
+					defaultValue=""
+					required="true"
+					validation="Numeric" />
+				-->
+			<!--
+			</attributeset>
+			-->
+		</extension>
+	</extensions>
 
 </plugin>
 </cfoutput>

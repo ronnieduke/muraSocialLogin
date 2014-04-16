@@ -19,12 +19,15 @@ component accessors=true extends='mura.plugin.pluginGenericEventHandler' output=
 		var contentRenderer = new contentRenderer(arguments.$);
 		arguments.$.setCustomMuraScopeKey(variables.settings.package, contentRenderer);
 		
-		variables.pluginConfig.setSetting("LoginService", new service.LoginService());
+		variables.pluginConfig.setSetting(
+			'SocialLoginService',
+			new service.SocialLoginService(arguments.$, variables.pluginConfig)
+		);
 		
-		variables.pluginConfig.setSetting("socialApi", new social.FacebookAPI(
-			variables.pluginConfig.getSetting("socialLoginAppId"),
-			variables.pluginConfig.getSetting("socialLoginAppSecret"),
-			"email"
+		variables.pluginConfig.setSetting('socialApi', new social.FacebookAPI(
+			variables.pluginConfig.getSetting('socialLoginAppId'),
+			variables.pluginConfig.getSetting('socialLoginAppSecret'),
+			'email'
 		));	
 	}
 
@@ -35,9 +38,13 @@ component accessors=true extends='mura.plugin.pluginGenericEventHandler' output=
 	}
 
 	public string function onSiteEditProfileRender($) {
-		$.addToHTMLHeadQueue('/#variables.settings.package#/display_objects/htmlhead.cfm');
-		
-		return $.dspCustomDisplayObject('dsp_social_edit_profile.cfm');
+		if ($.currentUser().getSubType() == "Social Login") {
+			$.addToHTMLHeadQueue('/#variables.settings.package#/display_objects/htmlhead.cfm');
+			
+			return $.dspCustomDisplayObject('dsp_social_edit_profile.cfm');
+		} else {
+			return "";
+		}
 	}
 
 	public string function dspCustomDisplayObject(string displayObject) {
