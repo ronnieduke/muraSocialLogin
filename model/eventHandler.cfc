@@ -39,7 +39,7 @@ component accessors=true extends='mura.plugin.pluginGenericEventHandler' output=
 
 	public string function onSiteEditProfileRender($) {
 		if ($.currentUser().getSubType() == 'Social Login'
-			or not variables.pluginConfig.getSetting('socialKeepSync')) {
+			and variables.pluginConfig.getSetting('socialKeepSync')) {
 
 			$.addToHTMLHeadQueue('/#variables.settings.package#/display_objects/htmlhead.cfm');
 			
