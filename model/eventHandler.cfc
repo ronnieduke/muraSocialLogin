@@ -38,7 +38,9 @@ component accessors=true extends='mura.plugin.pluginGenericEventHandler' output=
 	}
 
 	public string function onSiteEditProfileRender($) {
-		if ($.currentUser().getSubType() == "Social Login") {
+		if ($.currentUser().getSubType() == 'Social Login'
+			or not variables.pluginConfig.getSetting('socialKeepSync')) {
+
 			$.addToHTMLHeadQueue('/#variables.settings.package#/display_objects/htmlhead.cfm');
 			
 			return $.dspCustomDisplayObject('dsp_social_edit_profile.cfm');
