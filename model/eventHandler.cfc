@@ -45,7 +45,7 @@ component accessors=true extends='mura.plugin.pluginGenericEventHandler' output=
 			
 			return $.dspCustomDisplayObject('dsp_social_edit_profile.cfm');
 		} else {
-			return "";
+			return '';
 		}
 	}
 

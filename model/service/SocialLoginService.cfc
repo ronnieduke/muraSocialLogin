@@ -11,10 +11,10 @@ component accessors='true' {
 	}
 
 	public void function login(struct me, string groups='') {
-		var user = $.getBean('User').loadBy(remoteID=arguments.me.id);
+		var user = get$().getBean('User').loadBy(remoteID=arguments.me.id);
 
-		// even if the user exists, we update information at login
-		if (user.getIsNew() or variables.pluginConfig.getSetting('socialKeepSync')) {
+		// we update information at login if socialKeepSync is On
+		if (user.getIsNew() or getPluginConfig().getSetting('socialKeepSync')) {
 			user.setRemoteID(arguments.me.id);
 			user.setSiteID(session.siteID);
 			user.setUsername('fb-' & arguments.me.username & '-' & arguments.me.id);
@@ -22,18 +22,20 @@ component accessors='true' {
 			user.setEmail(arguments.me.email);
 			user.setFname(arguments.me.first_name);
 			user.setLname(arguments.me.last_name);
-	
+			
+			arguments.groups = (arguments.groups == '')?getPluginConfig().getSetting("socialLoginDefaultGroups"):arguments.groups;
 			for (var groupname in listToArray(arguments.groups)) {
-				var group=$.getBean('user').loadBy(groupname=groupname,siteid=session.siteID);
+				var group=get$().getBean('user').loadBy(groupname=groupname,siteid=session.siteID);
 				if (group.getIsNew()) { // create group if doesn't exist
 					group.setSiteID(session.siteID).setType(1).setGroupName(groupname).setIsPublic(1).save();
 				}
-				user.setGroupID(groupID=$.getBean('user').loadBy(groupname=groupname).getUserID(),append=false);
+				user.setGroupID(groupID=get$().getBean('user').loadBy(groupname=groupname).getUserID(),append=false);
 			}
+			
 			user.save();
 		}
 
-		$.getBean('UserUtility').loginByUserID(user.getUserID(), user.getSiteID());
+		get$().getBean('UserUtility').loginByUserID(user.getUserID(), user.getSiteID());
 	}
 
 }

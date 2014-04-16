@@ -2,6 +2,7 @@ component accessors="true" {
 	property name="accessToken" type="string" default="";
 
 	property name="target" type="string";
+	property name="groups" type="string";
 	property name="state" type="string";
 	property name="api" type="FacebookAPI";
 
@@ -11,8 +12,9 @@ component accessors="true" {
 		setState(hash(createUUID()));
 	}
 
-	public string function connect(string target) {
+	public string function connect(string target, string groups = '') {
 		setTarget(arguments.target);
+		setGroups(arguments.groups);
 		
 		return getApi().getDialogUrl().build({state: getState()});
 	}
@@ -22,20 +24,20 @@ component accessors="true" {
 			var r = {};
 			var tokenUrl = getApi().getTokenUrl();
 			
-			http url="#tokenUrl.build({code: arguments.code})#" result="r";
+			http url='#tokenUrl.build({code: arguments.code})#' result='r';
 			
 			var qs = tokenUrl.deserializeQueryString(r.filecontent);
 
-			if (qs.keyExists("access_token")) {
-				setAccessToken(qs["access_token"]);
-				setState("");
+			if (qs.keyExists('access_token')) {
+				setAccessToken(qs['access_token']);
+				setState('');
 				
 				//echo("redirect to <a href='" & getTarget() & "'>" & getTarget() & "</a>");
 				//dump(me);
 				return true;
 			} else {
 				// This is an error case.
-				dump(r);abort;
+				//dump(r);abort;
 				// return r?
 			}
 		}
