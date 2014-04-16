@@ -149,6 +149,17 @@
 			<required>false</required>
 			<validation>None</validation>
 		</setting>
+		<setting>
+			<name>socialKeepSync</name>
+			<label>Keep profile synchronized from Social Network.</label>
+			<hint>Yes to activate the profile information synchronization. No to allow users modifying their profile.</hint>
+			<defaultValue>true</defaultValue>
+			<type>RadioGroup</type>
+			<required>True</required>
+			<validation>None</validation>
+			<optionList>true^false</optionList>
+			<optionLabelList>Yes^No</optionLabelList>
+		</setting>
 	</settings>
 
 	<!-- Event Handlers -->
