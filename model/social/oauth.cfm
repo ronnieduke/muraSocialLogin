@@ -5,7 +5,7 @@
 	<cfif mysession.oauth(url.code, url.state)>
 	
 		<cfset me = mysession.graph('/me') />
-		<cfset pluginConfig.getSetting("SocialLoginService").login(me, pluginConfig.getSetting("socialLoginDefaultGroups")) />
+		<cfset pluginConfig.getSetting("SocialLoginService").login(me, mysession.getGroups()) />
 		<cflocation url="#mysession.getTarget()#" addtoken="false" />
 	</cfif>
  

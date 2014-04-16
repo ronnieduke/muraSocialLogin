@@ -13,8 +13,8 @@ component accessors='true' {
 	public void function login(struct me, string groups='') {
 		var user = get$().getBean('User').loadBy(remoteID=arguments.me.id);
 
-		// even if the user exists, we update information at login
-		if (user.getIsNew() or variables.pluginConfig.getSetting('socialKeepSync')) {
+		// we update information at login if socialKeepSync is On
+		if (user.getIsNew() or getPluginConfig().getSetting('socialKeepSync')) {
 			user.setRemoteID(arguments.me.id);
 			user.setSiteID(session.siteID);
 			user.setUsername('fb-' & arguments.me.username & '-' & arguments.me.id);
@@ -22,7 +22,8 @@ component accessors='true' {
 			user.setEmail(arguments.me.email);
 			user.setFname(arguments.me.first_name);
 			user.setLname(arguments.me.last_name);
-	
+			
+			arguments.groups = (arguments.groups == '')?getPluginConfig().getSetting("socialLoginDefaultGroups"):arguments.groups;
 			for (var groupname in listToArray(arguments.groups)) {
 				var group=get$().getBean('user').loadBy(groupname=groupname,siteid=session.siteID);
 				if (group.getIsNew()) { // create group if doesn't exist
@@ -30,6 +31,7 @@ component accessors='true' {
 				}
 				user.setGroupID(groupID=get$().getBean('user').loadBy(groupname=groupname).getUserID(),append=false);
 			}
+			
 			user.save();
 		}
 
