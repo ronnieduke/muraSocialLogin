@@ -1,0 +1,32 @@
+*, *:after, *:before {
+	-heightwebkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+.line-thru {
+	display: block;
+	position: relative;
+	text-align: center;
+	width: 100%;
+}
+
+.line-thru:before {
+	content: '';
+	display: block;
+	position: absolute;
+	top: 49%;
+	right: 0;
+	width: 47%;
+	border-bottom: 1px solid #e5e5e5;
+}
+
+.line-thru:after {
+	content: '';
+	display: block;
+	position: absolute;
+	top: 49%;
+	left: 0;
+	width: 47%;
+	border-bottom: 1px solid #e5e5e5;
+}
